@@ -6,7 +6,6 @@
   <title>苹果监管机解锁</title>
   <style>
     :root {
-      /* 背景图：可替换为本地路径或任意图片链接 */
       --bg-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1920&q=80');
       --card-bg: rgba(255, 255, 255, 0.88);
       --card-bg-hover: rgba(255, 255, 255, 0.96);
@@ -33,7 +32,6 @@
       min-height: 100vh;
     }
 
-    /* 明亮叠加层，保证文字清晰不刺眼 */
     body::before {
       content: '';
       position: fixed;
@@ -73,18 +71,8 @@
     }
     .info-box:hover { transform: translateY(-2px); }
 
-    .info-box h2 {
-      font-size:3rem;
-      margin-bottom: 0.8rem;
-      color: #0f172a;
-    }
-
-    .info-box p {
-      font-size: 2rem;
-      color: #334155;
-      line-height: 1.75;
-    }
-
+    .info-box h2 { font-size:3rem; margin-bottom: 0.8rem; color: #0f172a; }
+    .info-box p { font-size: 2rem; color: #334155; line-height: 1.75; }
     .info-box a {
       color: var(--accent);
       text-decoration: none;
@@ -98,6 +86,76 @@
       color: var(--accent-hover); 
       background: rgba(37, 99, 235, 0.15);
       text-shadow: 0 0 8px rgba(37, 99, 235, 0.3);
+    }
+
+    /* 🔹 新增：竖排图片区域样式 */
+    .image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .image-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.8rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 400px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .image-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+
+    .image-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .image-card:hover img {
+      transform: scale(1.02);
+    }
+
+    /* 简易灯箱效果 */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      color: #fff;
+      font-size: 2.5rem;
+      cursor: pointer;
+      user-select: none;
     }
 
     .links-grid {
@@ -146,6 +204,7 @@
       body { font-size: 16px; padding: 1.5rem 0.8rem; }
       header h1 { font-size: 2rem; }
       .info-box { padding: 1.5rem; }
+      .image-card { max-width: 100%; }
       .links-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -158,13 +217,25 @@
 
     <section class="info-box">
       <h2>📱 专业苹果手机监管机解锁</h2>
-      <p>专注解锁监管机配置机，查询到的联系我
-        ，查询有时候不能用，
+      <p>专注解锁监管机配置机，查询有时候不能用，
         是在换服务器中，等待即可。<br>
-         详情联系飞机🛩️Telegram： <a href="https://t.me/pojielive" target="_blank" rel="noopener">@pojielive</a>，
+         详情联系Qtox或者飞机🛩️Telegram： <a href="https://t.me/pojielive" target="_blank" rel="noopener">@pojielive</a>，
          如无法私聊请添加🛩️机器人 <a href="https://t.me/pojielive_bot" target="_blank" rel="noopener">@pojielive_bot</a>
       </p>
     </section>
+
+    <!-- 🔹 新增：竖排双图片区域 -->
+    <section class="image-section">
+      <div class="image-card" onclick="openLightbox(this)">
+        <img src="https://pub-5d9516ca10d842829497916b4eeb901b.r2.dev/QQ20260520-083701.png" alt="qtox二维码">
+      </div>
+        </section>
+
+    <!-- 灯箱容器 -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+      <span class="lightbox-close">&times;</span>
+      <img id="lightbox-img" src="" alt="放大预览">
+    </div>
 
     <nav class="links-grid">
       <a href="http://xx88.ccwu.cc/" class="link-card" target="_blank" rel="noopener">
@@ -189,9 +260,33 @@
       </a>
     </nav>
 
-    <footer>联系飞机🛩️telegram： <a href="https://t.me/pojielive" target="_blank" rel="noopener">@pojielive</a>，
-         如无法私聊请添加机器人🛩️telegram： <a href="https://t.me/pojielive_bot" target="_blank" rel="noopener">@pojielive_bot</a>
-</footer>
+    <footer>
+      联系飞机🛩️telegram： <a href="https://t.me/pojielive" target="_blank" rel="noopener">@pojielive</a>，
+      如无法私聊请添加机器人🛩️telegram： <a href="https://t.me/pojielive_bot" target="_blank" rel="noopener">@pojielive_bot</a>
+    </footer>
   </main>
+
+  <script>
+    // 🔹 简易灯箱功能：点击图片放大预览
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden'; // 禁止背景滚动
+    }
+    function closeLightbox(e) {
+      if (e.target.id === 'lightbox' || e.target.className === 'lightbox-close') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    // 支持 ESC 关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
 </body>
 </html>
